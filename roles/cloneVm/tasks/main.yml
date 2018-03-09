@@ -49,11 +49,10 @@
     validate_certs: no
   register: newMachine
 
-- name: add ipv4 to hosts 
-  set_fact: 
-    myIp: "{{item}}"
-  with_items: 
-  - "{{ newMachine.instance.ipv4 }}"
+- name:  Add guest to hosts
+  add_host: 
+    hostname: "{{ machineName }}"
+    ansible_host: "{{ newMachine.instance.ipv4 }}"
 
 - name: time to go to time
   setup: filter=ansible_local

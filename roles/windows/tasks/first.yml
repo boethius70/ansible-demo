@@ -5,11 +5,11 @@
   - name: rename machine using powershell
     script: ../files/machineServername.ps1 "{{ machineName }}"
 
-  - win_updates:
-      category_names:
-      - SecurityUpdates
-      - CriticalUpdates
-      - UpdateRollups
+  #- win_updates:
+  #    category_names:
+  #    - SecurityUpdates
+  #    - CriticalUpdates
+  #    - UpdateRollups
 
   - name: debug var ansible_ssh_host
     debug: msg="var 'ansible_ssh_host' = '{{ ansible_ssh_host }}'"

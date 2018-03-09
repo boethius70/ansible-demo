@@ -4,5 +4,5 @@
   - name: rdp
     script: ../files/RdpEnable.ps1
 
-  - name: Rename local administrator
-    script:  ../files/renameAdmin.ps1
+  #- name: Rename local administrator
+  #  script:  ../files/renameAdmin.ps1

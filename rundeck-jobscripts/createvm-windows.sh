@@ -3,7 +3,7 @@ powerOnTimeout='75'
 vmtemplateWin=$2
 machineName=$1
 vcenter_hostname=$3
-baseDir='/home/ubadmin/ansible-windows-provisioning' 
+baseDir='/home/ubadmin/ansible-demo' 
 
 if [[ $vcenter_hostname == 'vsphere01.contoso.local' ]]
  then
@@ -55,7 +55,6 @@ declare -a commands=(
 
 for command in "${commands[@]}"
   do
-    echo helo
    $command
         if [ "$?" -ne "0" ]
         then
