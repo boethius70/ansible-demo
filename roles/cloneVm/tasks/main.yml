@@ -21,75 +21,39 @@
 - name: debug vCenter hostname
   debug: msg="vcenter_hostname = '{{ vcenter_hostname }}'"
 
-- name: check phpIpam for existing machine with this same hostname
-  command: "{{ansible_hosts_file}} --searchhostname {{ machineName }}"
-  register: search_result
-  ignore_errors: yes
-
-- name: debug
-  debug: msg="'search_result' = {{ search_result }}"
-
-- name: Check name doesnt already exist          
-  fail: msg="Error - machine name already exists"
-  when: search_result.rc == 0
-
-- name: Create VM from template
-  when: vcenter_hostname != "drvc01.contoso.local"
-  vsphere_guest:   
-    vcenter_hostname: "{{ vcenter_hostname }}"
-    username: "{{ vsphere_login }}"   
-    password: "{{ vsphere_password }}"   
-    guest: "{{ machineName }}"
-    from_template: yes 
-    template_src: "{{ vmtemplate }}"
-    cluster: "{{ cluster_name }}"
-    resource_pool: "/Resources"
-
-- name: Create VM from template - drvc01
-  when: vcenter_hostname == "drvc01.contoso.local"
-  vsphere_guest:   
-    vcenter_hostname: "{{ vcenter_hostname }}"   
-    username: "{{ vsphere_login }}"   
-    password: "{{ vsphere_password }}"   
-    guest: "{{ machineName }}"
-    from_template: yes 
-    template_src: "{{ vmtemplate }}"
-    resource_pool: "/Resources"
-    esxi:
-      datacenter: "{{ datacenter_name }}"
-      hostname: "{{ esx_hostname }}"
-
-- name: power on vm
-  vsphere_guest: 
-    vcenter_hostname: "{{ vcenter_hostname }}"
-    username: "{{ vsphere_login }}"
-    password: "{{ vsphere_password }}"
-    guest: "{{ machineName }}"
-    state: powered_on
-    force: yes       
-
-- name: wait for power on to finish
-#  wait_for: delay=5 timeout="{{ powerOnTimeout }}"
-  pause: seconds="{{ powerOnTimeout }}"
+- name: Create VM from template - DC1
+  when: vcenter_hostname == "vcsa1.fd.local"
+  vmware_guest:
+    name: "{{ machineName }}"
+    hostname: '{{ vcenter_hostname }}'
+    username: '{{ vsphere_login }}'
+    password: '{{ vsphere_password }}'
+    validate_certs: no
+    esxi_hostname: '{{ esx_hostname }}'
+    state: poweredon
+    datacenter: "{{ vcenter_datacenter }}"
+    template: "{{ vmtemplate }}"
+    hardware:
+      memory_mb: "{{ vm_memory | default(1024) }}"
+      num_cpus: 2
+    wait_for_ip_address: yes
 
 - name: get facts from vm
-  vsphere_guest:
-    vcenter_hostname: "{{ vcenter_hostname }}"
+  vmware_guest_facts:
+    hostname: "{{ vcenter_hostname }}"
     username:  "{{ vsphere_login }}"
+    datacenter: "{{ vcenter_datacenter }}"
     password:  "{{ vsphere_password }}"
-    guest: "{{ machineName }}"
-    vmware_guest_facts: yes
+    folder: "{{ vcenter_datacenter }}/vm/"
+    name: "{{ machineName }}"
+    validate_certs: no
   register: newMachine
 
 - name: add ipv4 to hosts 
   set_fact: 
     myIp: "{{item}}"
   with_items: 
-  - "{{ newMachine.ansible_facts.hw_eth0.ipaddresses | ipv4('address') }} "
+  - "{{ newMachine.instance.ipv4 }}"
 
 - name: time to go to time
   setup: filter=ansible_local
-
-- name: modify IP in phpIpam
-  command: "{{ansible_hosts_file}} --modifyip {{myIp}}:{{ machineName }} --capsv 'cdl_isprod:0|cdl_autodelete:1|cdl_dhcp:1'"
-

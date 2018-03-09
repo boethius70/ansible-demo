@@ -1,0 +1,19 @@
+---
+- hosts: 127.0.0.1
+  tasks:  
+    - name: get faces from VM
+      vmware_guest_facts:
+        hostname: "vcsa1.fd.local"
+        username:  "administrator@fd.local"
+        datacenter: "HomeDatacenter"
+        password:  "Sneakypies33!"
+        folder: "/HomeDatacenter/vm"
+        name: "MYDEMO"
+        validate_certs: no
+      register: newMachine
+
+    - name: add ipv4 to hosts
+      set_fact:
+        myIp: "{{item}}"
+      with_items:
+        - "{{ newMachine.instance.ipv4 }}"

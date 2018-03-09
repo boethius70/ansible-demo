@@ -15,11 +15,10 @@
   connection: local
   vars_files:
     - "{{ vsphere_vars_file }}"
-    - '../group_vars/general.yml'
+    - 'group_vars/general.yml'
   vars:
     - powerOnTimeout: 120 
     - ansible_os_family: Windows
-    - vmtemplate: tplW12r2S14
   roles: 
    - cloneVm
 ...

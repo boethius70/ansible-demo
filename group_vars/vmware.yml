@@ -1,0 +1,7 @@
+vcenter_hostname: vcsa1.fd.local
+vsphere_login: administrator@fd.local
+vsphere_password: Sneakypies33!
+esxhost: fdesx1.fd.local
+validate_certs: no
+datastore: datastore1
+network: "VM network"

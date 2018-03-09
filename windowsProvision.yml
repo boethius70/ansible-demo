@@ -3,9 +3,9 @@
   hosts: "{{ machineName }}"
   connection: smart
   vars_files:  
-    - '../group_vars/windows.yml'
-    - '../group_vars/general.yml' 
-    - '../group_vars/vsphere.yml'
+    - 'group_vars/windows.yml'
+    - 'group_vars/general.yml' 
+    - '{{ vsphere_vars_file }}'
   roles:
     - { role: windows, step: first }
 
@@ -30,9 +30,9 @@
   hosts: "{{ machineName }}"
   connection: smart
   vars_files:  
-    - '../group_vars/windows.yml'
-    - '../group_vars/general.yml' 
-    - '../group_vars/vsphere.yml'
+    - 'group_vars/windows.yml'
+    - 'group_vars/general.yml' 
+    - '{{ vsphere_vars_file }}'
   roles:
     - { role: windows, step: second }
 
@@ -57,9 +57,9 @@
   hosts: "{{ machineName }}"
   connection: smart
   vars_files:
-    - '../group_vars/windows.yml'
-    - '../group_vars/general.yml'
-    - '../group_vars/vsphere.yml'
+    - 'group_vars/windows.yml'
+    - 'group_vars/general.yml'
+    - '{{ vsphere_vars_file }}'
   roles:
     - { role: windows, step: third }
 

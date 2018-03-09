@@ -1,0 +1,18 @@
+---
+- name: Gather facts
+    vmware_guest_facts:
+      hostname: "{{ vcenter_hostname }}"
+      username:  "{{ vsphere_login }}"
+      password:  "{{ vsphere_password }}"
+      guest: "{{ machineName }}"
+      validate_certs: no
+      register: newMachine
+
+- name: add ipv4 to hosts
+    set_fact:
+       myIp: "{{item}}"
+    with_items:
+       - "{{ newMachine.ansible_facts.hw_eth0.ipaddresses | ipv4('address') }} "
+
+- name: time to go to time
+    setup: filter=ansible_local

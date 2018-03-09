@@ -34,23 +34,12 @@ else
 fi
 
 
-declare -a commands=(
-                        "ansible-playbook \
+declare -a commands=( "ansible-playbook \
                            -e machineName=$machineName \
-                           -e powerOnTimeout=$powerOnTimeout \
-                           -e vmtemplate=$vmtemplateWin \
-                           -e cluster_name=$cluster_name \
-                           -e vsphere_vars_file=$vsphere_vars_file \
-                           -e esx_hostname=$esx_hostname \
-                           -e datacenter_name=$datacenter_name \
-                           $baseDir/cloner.yml \
-                           --vault-password-file \
-                           $baseDir/pass.txt -vv"
-                        "ansible-playbook \
-                           -e machineName=$machineName \
+ 			   -e vsphere_vars_file=$vsphere_vars_file \
+		           -i $baseDir/hosts \
                            $baseDir/windowsProvision.yml \
-                           --vault-password-file \
-                           $baseDir/pass.txt -vv"
+                           "
                     )
 
 for command in "${commands[@]}"

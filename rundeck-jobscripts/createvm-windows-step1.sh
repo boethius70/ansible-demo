@@ -46,11 +46,6 @@ declare -a commands=(
                            $baseDir/cloner.yml \
                            --vault-password-file \
                            $baseDir/pass.txt -vv"
-                        "ansible-playbook \
-                           -e machineName=$machineName \
-                           $baseDir/windowsProvision.yml \
-                           --vault-password-file \
-                           $baseDir/pass.txt -vv"
                     )
 
 for command in "${commands[@]}"

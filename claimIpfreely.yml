@@ -5,7 +5,7 @@
   gather_facts: false
   connection: local
   vars_files:
-    - '../group_vars/general.yml'
+    - 'group_vars/general.yml'
   vars:
     - subnet: 10.119.6.0
     - ips: "{{ groups[machineName] }}"

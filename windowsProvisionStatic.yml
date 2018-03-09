@@ -6,9 +6,9 @@
   gather_facts: true
   hosts: "{{ machineName }}"
   vars_files:
-    - '../group_vars/windows.yml'
+    - 'group_vars/windows.yml'
     - "{{ vsphere_vars_file }}"
-    - '../group_vars/general.yml'
+    - 'group_vars/general.yml'
   vars:
     - newIp: "{{ cdl_ansible_newaddr }}"
     - oldIp: "{{ inventory_hostname }}"
@@ -20,7 +20,7 @@
   gather_facts: false
   connection: local
   vars_files:
-    - '../group_vars/general.yml'
+    - 'group_vars/general.yml'
   vars: 
     - ips: "{{ groups[machineName] }}"
     - newip: "{% for host in groups[machineName] %}{{ hostvars[host]['cdl_ansible_newaddr'] }}{% endfor %}"

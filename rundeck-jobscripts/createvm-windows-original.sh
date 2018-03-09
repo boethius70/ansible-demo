@@ -48,6 +48,25 @@ declare -a commands=(
                            $baseDir/pass.txt -vv"
                         "ansible-playbook \
                            -e machineName=$machineName \
+                           -e subnet=$subnet \
+                           $baseDir/claimIpfreely.yml \
+                           --private-key=$key \
+                           --vault-password-file \
+                           $baseDir/pass.txt -vv"
+                        "ansible-playbook \
+                           -e machineName=$machineName \
+                           -e newMask=$newMask \
+                           -e newGateway=$newGateway \
+                           -e newDNS1=$newDNS1 \
+                           -e newDNS2=$newDNS2 \
+                           -e powerOnTimeout=$powerOnTimeout \
+                           -e subnet=$subnet
+                           $baseDir/windowsProvisionStatic.yml \
+                           --private-key=$key \
+                           --vault-password-file \
+                           $baseDir/pass.txt -vv"
+                        "ansible-playbook \
+                           -e machineName=$machineName \
                            $baseDir/windowsProvision.yml \
                            --vault-password-file \
                            $baseDir/pass.txt -vv"

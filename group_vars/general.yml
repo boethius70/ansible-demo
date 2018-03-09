@@ -1,1 +1,1 @@
-ansible_hosts_file: /usr/pysser/pysser.py
+ansible_hosts_file: ../hosts

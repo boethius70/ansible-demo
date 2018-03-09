@@ -6,18 +6,18 @@ try
 	    $projectName = 'idontcare'
 	}
 
-	if($projectName -eq "BFF") 
+	if($projectName -eq "ansible-windows") 
 	{
-		$path = 'OU=BFFServers,OU=SBSServers,OU=Computers,OU=MyBusiness,DC=cl,DC=local'
+		$path = 'OU=Servers,DC=fd,DC=local'
 	}
 	else
 	{
-		$path = 'OU=QAServers,OU=SBSServers,OU=Computers,OU=MyBusiness,DC=cl,DC=local'
+		$path = 'OU=QAServers,OU=Computers,OU=Servers,DC=fd,DC=local'
 	}
 	$secPass = ConvertTo-SecureString $password -AsPlainText -Force
 	$credential = New-Object System.Management.Automation.PSCredential($username, $secPass)
 
-	Add-Computer  -ComputerName $ENV:COMPUTERNAME -Credential $credential -OUPath $path -DomainName cl.local
+	Add-Computer  -ComputerName $ENV:COMPUTERNAME -Credential $credential -OUPath $path -DomainName fd.local
 }
 catch
 {
