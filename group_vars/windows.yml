@@ -1,8 +1,0 @@
-ansible_user: administrator
-ansible_password: Sneakypies33!
-ansible_port: 5986
-ansible_connection: winrm
-# The following is necessary for Python 2.7.9+ when using default WinRM self-signed certificates:
-ansible_winrm_server_cert_validation: ignore
-windows_vmtools_file: "VMware-tools-10.1.15-6677369-x86_64.exe"
-windows_vmtools_url: "https://packages.vmware.com/tools/esx/6.5latest/windows/x64/VMware-tools-10.1.15-6677369-x86_64.exe"
